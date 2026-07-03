@@ -14,11 +14,14 @@ and keep the level tag honest to the abilities you gave it.
 
 Bands from equipment.md: simple melee 1d4-1d6, no requirement, 15-80cr;
 martial melee 1d8-2d6, requires 40 Might, 500-800cr; bows 1d6-1d8 on Might;
-crossbows on Intellect, FLAT dice, no mod. A new category (whips, thrown,
-magi-tech) is a rules addition — define its attack stat and mod rule
-explicitly and log the ruling. Magi-tech weapon damage is an open design
-task; whoever builds it defines the Magic-stat damage rule and updates
-equipment.md's TBD.
+crossbows on Intellect, FLAT dice, no mod; magi-tech on Magic, FLAT dice,
+no mod, 1 E-stone fuel per encounter. A new category (whips, thrown) is a
+rules addition — define its attack stat and mod rule explicitly and log the
+ruling.
+
+Tier 2+ weapon dice anchors (see equipment.md "Tier Weapon and Armor
+Anchors"): T2 ~2d6-2d8, T3 ~3d6-3d8, T4 ~4d8-4d10, T5 ~6d8-6d10. Prices
+follow the ×10-per-tier curve.
 
 ## Armor
 
@@ -45,24 +48,59 @@ item's nearest published neighbor and why the new price sits where it does.
 <Effect in one or two sentences using existing grammar.>
 ```
 
-Bands (Tier 1 catalog): level 0 = bread and butter (1 point, ~1d4-1d8
-effects); level 3 = tactical (mostly 2 points); level 5 = strong control or
-multi-target; level 8 = 3 points, once per encounter, fight-changing (2d8
-band). Cost = the level's XP threshold: 0/60/150/360 for 0/3/5/8. Every
-3-point skill is once per encounter — no exceptions in the catalog, keep it
-that way.
+### Tier band structure
+
+Four bands per tier. XP costs come from the core formula. Point costs stay
+1/2/3 at every tier; every 3-point skill is once per encounter, at every
+tier, no exceptions.
+
+| Tier | Bands (required level) | XP costs |
+|---|---|---|
+| 1 | 0 / 3 / 5 / 8 | 0 / 60 / 150 / 360 |
+| 2 | 10 / 13 / 15 / 18 | 550 / 838 / 1,070 / 1,478 |
+| 3 | 20 / 23 / 25 / 28 | 1,790 / 2,186 / 2,480 / 2,966 |
+| 4 | 30 / 33 / 35 / 38 | 3,320 / 3,704 / 3,980 / 4,424 |
+| 5 | 40 / 43 / 45 / 48 | 4,740 / 4,992 / 5,170 / 5,452 |
+
+Old skills stay usable and cheap — a Tier 3 character spamming Power Strike
+is paying 1 point for +1d4, which is its own obsolescence curve. No sunset
+rules needed.
+
+### Damage and effect bands per tier
+
+These assume the published HP tables. If a future HP rebalance is adopted,
+revisit Tier 3+ bands.
+
+| Tier | 1-pt attack rider / spell | 2-pt band | 3-pt capstone | Heals | Roll penalties/bonuses | Ability DR |
+|---|---|---|---|---|---|---|
+| 1 | +1d4 / 1d8+Mod | +1d8, multi 1d6 | 2d8 | 1d6–2d8 | ±10 to ±15 | 1–3 |
+| 2 | +2d6 / 2d8+Mod | +2d8, multi 2d6 | 4d8 | 2d6–4d6 | ±10 to ±15 | 2–4 |
+| 3 | +3d6 / 3d8+Mod | +3d8, multi 2d8 | 6d8 | 3d6–6d6 | ±15 | 3–5 |
+| 4 | +4d8 / 4d10+Mod | +4d10, multi 3d8 | 8d10 | 4d8–6d8 | ±15 | 4–6 |
+| 5 | +6d8 / 6d10+Mod | +6d10, multi 4d10 | 10d10 | 6d8–8d8 | ±15 to ±20 | 5–8 |
 
 ## Aspect (passive)
 
 ```
-**<Name>** — <passive effect: a +10/+15 conditional bonus, a small DR, a
-resource tweak, or an automatic trigger with a per-encounter limit>.
+**<Name>** *(Level <n> — <cost> XP)* — <passive effect: a +10/+15
+conditional bonus, a small DR, a resource tweak, or an automatic trigger
+with a per-encounter limit>.
 ```
 
 The catalog's power band: +15 on a defined slice of one stat's rolls is the
 standard shape; automatic triggers (Second Wind) carry once-per-encounter
 limits; economy tweaks (Mana Well) have floors. An always-on unconditional
 stat bonus is out of band.
+
+Aspect level requirements (so aspects participate in the XP economy):
+
+| Tier | Typical level bands | XP cost range |
+|---|---|---|
+| 1 | 0, 3, 5, 8 | 0–360 |
+| 2 | 10, 13, 15, 18 | 550–1,478 |
+| 3 | 20, 23, 25 | 1,790–2,480 |
+| 4 | 33, 35 | 3,704–3,980 |
+| 5 | 45, 48 | 5,170–5,452 |
 
 ## Quest (module section 5 format)
 
@@ -73,23 +111,5 @@ the price list.> *Spine:* <none | the connection, stated plainly>.
 ```
 
 Board quests post in System voice when accepted:
-`[Quest: <name> — <objective>. Reward: <reward>.]`
+`[Quest: <Name> — <objective>. Reward: <reward>.]`
 Character quests do not post until the character agrees to help.
-Rewards: village board work at these levels pays 150-400cr (published
-band); Organization commissions 100-300cr per verified site. XP always
-comes from kills per the core rules, never as a quest line item.
-
-## NPC
-
-The world file's pattern: name, race, sex/age, role, two or three sentences
-of who they are and how they behave, one thing that makes them useful or
-difficult in play. Then — before they appear in a session — create their
-`npc_knowledge` entry in the campaign state, starting from ignorance.
-Dialogue rules from gm_guide Part 4 apply to every line they will ever say.
-
-## Lore / world material
-
-Match the world file's register: plain declarative description, no live
-numbers (numbers live in state files and rules files), and a note of what is
-proposal versus established. New world material is a draft until the player
-approves it.
