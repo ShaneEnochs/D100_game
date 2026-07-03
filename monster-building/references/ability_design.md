@@ -20,9 +20,37 @@ check language. Patterns that appear across the published entries:
 - Surprise: "If it attacks from underground, it gets a surprise round."
 - Target priority: "Prioritizes targets below half HP."
 
-Keep numbers in these bands at Tier 1: rider/secondary damage 1 to 1d4,
-ability DR 1-2, roll penalties -10 to -15, durations 1-2 rounds or
-"until they rest." Bigger numbers are a Tier 2 design decision.
+## Number bands by tier
+
+Keep numbers in these bands. Bigger numbers than the tier allows are a
+design error, not a power pick.
+
+| Tier | Rider/secondary damage | Ability DR | Roll penalties | Durations |
+|---|---|---|---|---|
+| 1 | 1 to 1d4 | 1–2 | -10 to -15 | 1–2 rounds or "until they rest" |
+| 2 | 1d4 to 2d4 | 2–4 | -10 to -15 | 1–3 rounds |
+| 3 | 2d4 to 2d6 | 3–5 | -15 | 2–3 rounds |
+| 4 | 2d6 to 3d6 | 4–6 | -15 | 2–3 rounds |
+| 5 | 3d6 to 4d6 | 5–8 | -15 to -20 | 2–3 rounds |
+
+## Monster attack dice by tier
+
+| Tier | Attack dice range | Plus modifier |
+|---|---|---|
+| 1 | 1d4–1d8 | + Might or Magic Mod |
+| 2 | 2d6–2d8 | + Might or Magic Mod |
+| 3 | 3d6–3d8 | + Might or Magic Mod |
+| 4 | 4d8–4d10 | + Might or Magic Mod |
+| 5 | 6d8–6d10 | + Might or Magic Mod |
+
+## Action denial — the cap
+
+**R2 applies to monster abilities too.** Any monster ability that costs the
+target its action allows a resist check (Might for physical, Magic for
+magical/mental) unless the ability text says otherwise. A target can lose at
+most one action per round, regardless of how many denial effects land. Design
+new denial abilities with this in mind — stacking two action-deniers on one
+creature is legal but the second one does not produce a double lock.
 
 ## Ability count carries the threat
 
@@ -65,7 +93,7 @@ Match the published section order exactly:
 
 **Tactical notes:** <field advice a lieutenant would give recruits>
 
-- **Attack:** <name> — <dice> + <Might|Magic> Mod (<damage type>)
+- **Attack:** <Name> — <dice> + <Might|Magic> Mod (<damage type>)
 - **<Ability>** — <mechanical text>
 - **<Ability>** — <mechanical text>
 ```
