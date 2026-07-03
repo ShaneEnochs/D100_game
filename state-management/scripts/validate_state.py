@@ -15,7 +15,7 @@ What it derives instead of trusting:
     multipliers 10/8/6/4/2 for tiers 1-5. Verified against the published table.
   * Modifiers: stat // 10.
   * Tier: (level - 1) // 10 + 1.
-  * Skill points per encounter: 2 + Intellect // 10.
+  * Skill points per encounter: 1 + Intellect // 10 + Tier (R8, 2026-07-03).
   * Slot ceilings by tier: skills 2/3/4/5/6, aspects 1/2/3/4/5.
 
 What it cannot check: narrative truth (whether an NPC entry reflects what was
@@ -132,11 +132,11 @@ def check_character(c):
                 err(f"character sheet: at level 1, hp max should be "
                     f"20 + Might Mod = {expect_max}, found {hp['max']}")
 
-    # Skill points
-    expect_sp = 2 + c["stats"]["intellect"] // 10
+    # Skill points — R8: 1 + Intellect Mod + Tier
+    expect_sp = 1 + c["stats"]["intellect"] // 10 + expect_tier
     if c["skill_points_per_encounter"] != expect_sp:
         err(f"character sheet: skill_points_per_encounter = "
-            f"{c['skill_points_per_encounter']} but 2 + Intellect Mod = {expect_sp}")
+            f"{c['skill_points_per_encounter']} but 1 + Intellect Mod + Tier = {expect_sp}")
 
     # Slots
     if len(c["skills"]) > SKILL_SLOTS[expect_tier]:
@@ -162,8 +162,15 @@ def check_character(c):
             if key not in a:
                 err(f"character sheet: aspect '{a.get('name', '?')}' missing '{key}'")
         if a.get("level_req", 0) > level:
-            err(f"character sheet: aspect '{a.get('name')}' requires level "
-                f"{a['level_req']}, character is level {level}")
+            # Grandfathered abilities acquired under old pricing carry a note
+            note = a.get("note", "")
+            if "old pricing" in note.lower():
+                warn(f"character sheet: aspect '{a.get('name')}' requires level "
+                     f"{a['level_req']}, character is level {level} "
+                     f"(grandfathered: {note})")
+            else:
+                err(f"character sheet: aspect '{a.get('name')}' requires level "
+                    f"{a['level_req']}, character is level {level}")
 
     # Currency
     cur = c["currency"]
@@ -213,9 +220,7 @@ def check_campaign(s):
             if "does_not_know" in entry and not isinstance(entry["does_not_know"], list):
                 err(f"campaign state: npc_knowledge.{npc}.does_not_know must be a list")
             if not entry.get("knows"):
-                warn(f"campaign state: npc_knowledge.{npc}.knows is empty — "
-                     f"an NPC who knows nothing about the character may not "
-                     f"need an entry yet")
+                warn(f"campaign state: npc_knowledge.{npc} has an empty 'knows' list")
 
     if "rulings" in s and not isinstance(s["rulings"], list):
         err("campaign state: rulings must be a list")
@@ -223,28 +228,29 @@ def check_campaign(s):
 
 def main():
     if len(sys.argv) != 3:
-        print(__doc__)
-        return 1
+        print("Usage: python3 validate_state.py <character_sheet.json> <campaign_state.json>")
+        sys.exit(2)
 
     char = load(sys.argv[1], "character sheet")
     camp = load(sys.argv[2], "campaign state")
+
     if char is not None:
         check_character(char)
     if camp is not None:
         check_campaign(camp)
 
     for w in warnings:
-        print(f"WARN  {w}")
+        print(f"WARNING: {w}")
     for e in errors:
-        print(f"ERROR {e}")
-    if not errors:
-        print(f"OK — both files pass "
-              f"({len(warnings)} warning{'s' if len(warnings) != 1 else ''}).")
-        return 0
-    print(f"\n{len(errors)} error(s). Fix these before delivering files — "
-          f"the state files are the truth of the campaign.")
-    return 1
+        print(f"ERROR: {e}")
+
+    if errors:
+        print(f"\n{len(errors)} error(s), {len(warnings)} warning(s). FAIL.")
+        sys.exit(1)
+    else:
+        print(f"\n{len(warnings)} warning(s), 0 errors. PASS.")
+        sys.exit(0)
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    main()
